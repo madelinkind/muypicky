@@ -1,60 +1,118 @@
 import random
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views import View
+from django.views.generic import TemplateView
 
-
-# Create your views here.
-# function based view
-# def home_old(request):
-#     html_var = 'f strings'
-#     num = random.randint(0, 100000000)
-#     html_ = """<!DOCTYPE html>
-#       <html lang="en">
-#         <head>
-#         </head>
-#         <body>
-#           <h1>Hello World!</h1>
-#           <p>This is {} coming though</p>
-#           <p>This is random number {num}</p>
-#           </body>
-#       </html>
+# Fuction based in view
+# def home(request):
+#     num = None
+#     some_list = [
+#         random.randint(0, 100000000),
+#         random.randint(0, 100000000),
+#         random.randint(0, 100000000)
+#     ]
+#     condition_bool_item = True
+#     if condition_bool_item:
+#         num = random.randint(0, 100000000)
+#     context = {
+#         "some_list": some_list,
+#         "num": num
 #
-#     """.format(
-#       html_var
-#     )
+#     }
+#     return render(request, "home.html", context)
 #
-#     #f strings
-#     return HttpResponse(html_)
+#
+# def about(request):
+#     context = {
+#     }
+#     return render(request, "about.html", context)
+#
+#
+# def contact(request):
+#     context = {
+#     }
+#     return render(request, "contact.html", context)
+#
+
+# class ContactView(View):
+#     def get(self, request, *args, **kwargs):
+#         print(kwargs)
+#     # Diccionario
+#         context = {
+#             "id": kwargs['id'],
+#             'kk': 'Caca'
+#         }
+#         return render(request, "contact.html", context)
+# Shift+Tab para identar el codigo es decir para pegarlo a la izquierda
+
+# class ContactView(View):
+#     def get(self, request, *args, **kwargs):
+#         context = {}
+#         return render(request, "contact.html", context)
+
+        # def post(self, request, *args, **kwargs):
+        #     context = {}
+        #     return render(request, "contact.html", context)
+        #
+        #     def put(self, request, *args, **kwargs):
+        #         context = {}
+        #         return render(request, "contact.html", context)
 
 
-def home(request):
-    num = None
-    some_list = [
-        random.randint(0, 100000000),
-        random.randint(0, 100000000),
-        random.randint(0, 100000000)
-    ]
-    condition_bool_item = True
-    if condition_bool_item:
-        num = random.randint(0, 100000000)
-    context = {
-        "some_list": some_list,
-        "num": num
+# class ContactView(TemplateView):
+#     template_name = 'contact.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#
+#         context['kk'] = 'Caca'
+#
+#         return context
 
-    }
-    return render(request, "home.html", context)
+#
+class HomeView(TemplateView):
+    template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['id'] = '4325'
+        context['name'] = 'made'
+
+        num = None
+        some_list = [
+            random.randint(0, 100000000),
+            random.randint(0, 100000000),
+            random.randint(0, 100000000)
+        ]
+        condition_bool_item = True
+        if condition_bool_item:
+            num = random.randint(0, 100000000)
+        context = {
+            "some_list": some_list,
+            "num": num
+
+        }
+
+        return context
 
 
-def home2(request):
-    context = {
-    }
-    return render(request, "home2.html", context)
+# class AboutView(TemplateView):
+#     template_name = 'about.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#
+#         return context
+#
+#
+# class ContactView(TemplateView):
+#     template_name = 'contact.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#
+#         return context
 
-
-def home3(request):
-    context = {
-    }
-    return render(request, "home3.html", context)
-
-
-
+# video 14

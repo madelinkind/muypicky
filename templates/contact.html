@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block head_title %}Contact || {{ block.super }}{% endblock head_title%}
+
+{% block content %}
+    <h1>Contact</h1>
+    {% include 'snippets/sidebar.html' %}
+    <a href="mailto:youremail@gmail.com">Email us</a>
+{#    <br/> es para dar un espacio, pa listar uno de bajo del otro ejemplo:#}
+{#    <br />#}
+{#    {{ id }}#}
+{#    <br />#}
+{#    {{ kk }}#}
+    {{ name }}
+    <br />
+    {{ kk }}
+{% endblock %}
+

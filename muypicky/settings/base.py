@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'muypicky.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'muypicky_db',
+        'USER': 'madelinkind',
+        'PASSWORD': 'made123',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
