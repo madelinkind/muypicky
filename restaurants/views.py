@@ -1,10 +1,12 @@
-import random
+from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
+from .models import RestaurantLocation
 
 # Fuction based in view
+
 # def home(request):
 #     num = None
 #     some_list = [
@@ -33,7 +35,10 @@ from django.views.generic import TemplateView
 #     context = {
 #     }
 #     return render(request, "contact.html", context)
-#
+
+
+
+# Class based in View
 
 # class ContactView(View):
 #     def get(self, request, *args, **kwargs):
@@ -71,31 +76,31 @@ from django.views.generic import TemplateView
 #         return context
 
 #
-class HomeView(TemplateView):
-    template_name = 'home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['id'] = '4325'
-        context['name'] = 'made'
-
-        num = None
-        some_list = [
-            random.randint(0, 100000000),
-            random.randint(0, 100000000),
-            random.randint(0, 100000000)
-        ]
-        condition_bool_item = True
-        if condition_bool_item:
-            num = random.randint(0, 100000000)
-        context = {
-            "some_list": some_list,
-            "num": num
-
-        }
-
-        return context
+# class HomeView(TemplateView):
+#     template_name = 'home.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#
+#         context['id'] = '4325'
+#         context['name'] = 'made'
+#
+#         num = None
+#         some_list = [
+#             random.randint(0, 100000000),
+#             random.randint(0, 100000000),
+#             random.randint(0, 100000000)
+#         ]
+#         condition_bool_item = True
+#         if condition_bool_item:
+#             num = random.randint(0, 100000000)
+#         context = {
+#             "some_list": some_list,
+#             "num": num
+#
+#         }
+#
+#         return context
 
 
 # class AboutView(TemplateView):
@@ -115,4 +120,72 @@ class HomeView(TemplateView):
 #
 #         return context
 
-# video 14
+
+def restaurant_listview(request):
+    template_name = 'restaurants/restaurantlocation_list.html'
+    queryset = RestaurantLocation.objects.all()
+    context = {
+        "object_list": queryset
+    }
+    return render(request, template_name, context)
+
+
+def restaurant_detailview(request, slug):
+    template_name = 'restaurants/restaurantlocation_detail.html'
+    obj = RestaurantLocation.objects.get(slug=slug)
+    context = {
+        "object": obj
+    }
+    return render(request, template_name, context)
+
+
+class RestaurantListView(ListView):
+    def get_queryset(self):
+        print(self.kwargs)
+        slug = self.kwargs.get("slug")
+        if slug:
+            queryset = RestaurantLocation.objects.filter(
+                Q(category__icontains=slug) |
+                Q(category__iexact=slug)
+            )
+        else:
+            queryset = RestaurantLocation.objects.all()
+        return queryset
+
+
+class RestaurantDetailView(DetailView):
+        queryset = RestaurantLocation.objects.all()
+
+        # def get_context_data(self, **kwargs):
+        #     context = super().get_context_data(**kwargs)
+        #
+        #     # set additional data
+        #     context['n_views'] = 543
+        #     context['owner'] = 'Made'
+        #     context['temperature'] = '23 degrees'
+        #
+        #     return context
+
+        # def get_object(self, *arg, **kwargs):
+        #     rest_id = self.kwargs.get('rest_id')
+        #     obj = get_object_or_404(RestaurantLocation, id=rest_id)  # pk = rest_id
+        #     return obj
+
+
+# class SearchRestaurantListView(ListView):
+#         template_name = 'restaurants/restaurantlocation_list.html'
+#
+#         def get_queryset(self):
+#             print(self.kwargs)
+#             slug = self.kwargs.get("slug")
+#             if slug:
+#                 queryset = RestaurantLocation.objects.filter(
+#                     Q(category__icontains=slug) |
+#                     Q(category__iexact=slug) |
+#                     Q(location__icontains='Miramar')
+#                 )
+#             else:
+#                 queryset = RestaurantLocation.objects.none()
+#             return queryset
+#
+# video 23

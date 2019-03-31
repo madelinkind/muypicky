@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block head_title %} Restaurants | {{ block.super }}{% endblock head_title%}
+
+{% block content %}
+    <h2>Website views: {{ n_views }}</h2>
+    <br />
+
+<h1>{{ object.title }} <small> {{ object.category }} </small></h1>
+    <p> {{ object.location }} </p>
+    <p> {{ object.timestamp }} Update {{ object.updated|timesince }} ago</p>
+
+    <br />
+    <br />
+
+    <p>Owner {{ owner }}</p>
+    <p>Temperature {{ temperature }}</p>
+
+{% endblock %}
