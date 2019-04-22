@@ -1,8 +1,9 @@
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
+from .forms import RestaurantCreateForms
 from .models import RestaurantLocation
 
 # Fuction based in view
@@ -119,6 +120,29 @@ from .models import RestaurantLocation
 #         context = super().get_context_data(**kwargs)
 #
 #         return context
+
+def restaurant_createview(request):
+    # print(request.GET)
+    # print(request.POST)
+    # if request.method == "GET":
+    #     print("get data")
+    #     print(request.GET)
+
+    if request.method == "POST":
+        # print("post data")
+        # print(request.POST)
+        title = request.POST.get("title") #request.Post["title"] En este caso si pasas un title vacio da error, de lo contrario el que esta puesto devolveria none
+        location = request.POST.get("location")
+        category = request.POST.get("category")
+        obj = RestaurantLocation.objects.create(
+            name=title,
+            location=location,
+            category=category
+        )
+        return HttpResponseRedirect("/restaurants/")
+    template_name = 'restaurants/form.html'
+    context = {}
+    return render(request, template_name, context)
 
 
 def restaurant_listview(request):
