@@ -212,4 +212,4 @@ class RestaurantDetailView(DetailView):
 #                 queryset = RestaurantLocation.objects.none()
 #             return queryset
 #
-# video 23
+# video 24
